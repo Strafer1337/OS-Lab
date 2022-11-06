@@ -29,17 +29,14 @@ echo Номер группы: $group
 surname_list=$(cat students/groups/$group)
 for student in $surname_list
 do
-    # egrep -c -h "^$2;$student.*2$" ./$dir/tests/* > $student.tmp
     mark_list=$(egrep -c -h "^$group;$student.*2$" ./$dir/tests/*)
     f_count=0
     for i in $mark_list
     do
         ((f_count+=i))
     done
-    #f_count=$(egrep -c ".*" $student.tmp)
     echo "$student $f_count" >> all.tmp
 done
-# cat all.tmp
 
 max_f=0
 while IFS=' ' read -r name f_count
