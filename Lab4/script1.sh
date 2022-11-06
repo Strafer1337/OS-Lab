@@ -1,3 +1,4 @@
-#!bin/bash
-echo -e 'test\nmessage'
+#!/bin/bash
+echo 'test\nmessage'
+echo "test\nmessage"
 y=5
