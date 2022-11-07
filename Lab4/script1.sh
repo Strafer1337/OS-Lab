@@ -2,21 +2,6 @@
 # dir=$1
 group=$1
 
-# while [ "$dir" != "p" -a "$dir" != "c" ]
-# do
-#     echo "Такого предмета не существует."
-#     read -p 'Введите код правильного предмета: ' dir
-# done
-# if [ $dir == "p" ]
-# then
-#     dir=Пивоварение
-#     echo Предмет: $dir
-# elif [ $dir == "c" ]
-# then
-#     dir=Криптозоология
-#     echo Предмет: $dir
-# fi
-
 file=students/groups/$group
 while [ ! -f "$file" ]
 do 
