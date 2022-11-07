@@ -1,21 +1,21 @@
 #!/bin/bash
-dir=$1
-group=$2
+# dir=$1
+group=$1
 
-while [ "$dir" != "p" -a "$dir" != "c" ]
-do
-    echo "Такого предмета не существует."
-    read -p 'Введите код правильного предмета: ' dir
-done
-if [ $dir == "p" ]
-then
-    dir=Пивоварение
-    echo Предмет: $dir
-elif [ $dir == "c" ]
-then
-    dir=Криптозоология
-    echo Предмет: $dir
-fi
+# while [ "$dir" != "p" -a "$dir" != "c" ]
+# do
+#     echo "Такого предмета не существует."
+#     read -p 'Введите код правильного предмета: ' dir
+# done
+# if [ $dir == "p" ]
+# then
+#     dir=Пивоварение
+#     echo Предмет: $dir
+# elif [ $dir == "c" ]
+# then
+#     dir=Криптозоология
+#     echo Предмет: $dir
+# fi
 
 file=students/groups/$group
 while [ ! -f "$file" ]
@@ -29,7 +29,7 @@ echo Номер группы: $group
 surname_list=$(cat students/groups/$group)
 for student in $surname_list
 do
-    mark_list=$(egrep -c -h "^$group;$student.*2$" ./$dir/tests/*)
+    mark_list=$(egrep -c -h "^$group;$student.*2$" ./*/tests/*)
     f_count=0
     for i in $mark_list
     do
@@ -48,6 +48,8 @@ do
     fi
 done < all.tmp 
 
+subjects="Пивоварение
+Криптозоология"
 if [ $max_f -eq 0 ]
 then
     echo "Ни один студент не имеет неудачных попыток!"
@@ -56,14 +58,16 @@ else
     echo -e "\nИнформация о студенте с наибольши количеством неудачных попыток:\n"
     echo "Имя: $max_f_student"
     echo "Группа: $group"
-    echo "Предмет: $dir"
     echo "Общее количество неудач: $max_f"
-    egrep -h "^$group;$max_f_student.*2$" ./$dir/tests/* > fs.tmp
     i=1
-    while IFS=';' read -r gr name year points mark
+    while  read -r subj
     do
-        echo -e "$i. Год: $year;\n   Количество набранных баллов: $points."
-        ((i++))
-    done < fs.tmp 
+        egrep -h "^$group;$max_f_student.*2$" ./$subj/tests/* > fs.tmp
+        while IFS=';' read -r gr name year points mark
+        do
+            echo -e "$i. Год: $year;\n   Предмет: $subj;\n   Количество набранных баллов: $points.   "
+            ((i++))
+        done < fs.tmp 
+    done <<< "$subjects"
 fi
 rm *.tmp
