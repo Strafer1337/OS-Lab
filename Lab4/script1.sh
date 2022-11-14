@@ -1,5 +1,9 @@
 #!/bin/bash
-# dir=$1
+if [ $# -lt 1 ]
+then
+    echo -e "Не заданы входные параметры для работы программы!\nЗапустите программу заново."
+    exit
+fi
 group=$1
 
 file=students/groups/$group
