@@ -9,7 +9,7 @@ group=$2
 while [ "$dir" != "p" -a "$dir" != "c" ]
 do
     echo "Такого предмета не существует."
-    read -p 'Введите код правильного предмета: ' dir
+    read -p 'Введите правильный код предмета: ' dir
 done
 if [ $dir == "p" ]
 then
@@ -48,7 +48,7 @@ i=1
 echo -e "\nУпорядоченный по успеваемости список студентов:\n"
 while IFS=' ' read -r mark name 
 do
-    echo -e "$i. Имя: $name;\tОбщая сумма полодительных оценок: $mark"
+    echo -e "$i. Имя: $name;\tОбщая сумма положительных оценок: $mark"
     ((i++))
 done < marks2.tmp
 rm *.tmp
