@@ -33,7 +33,6 @@ echo Номер группы: $group
 surname_list=$(cat students/groups/$group)
 for student in $surname_list
 do
-    # egrep -c -h "^$2;$student.*2$" ./$dir/tests/* > $student.tmp
     egrep -h "^$group;$student.*[3-5]$" ./$dir/tests/* > $student.tmp
     student_mark=0
     while IFS=';' read -r gr name year points mark
