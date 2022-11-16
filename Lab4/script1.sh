@@ -9,7 +9,7 @@ group=$1
 file=students/groups/$group
 while [ ! -f "$file" ]
 do 
-    echo "Такой группы не существует."
+    echo "Группа не указана или указана неверно."
     read -p "Введите правильный номер группы: " group
     file=students/groups/$group
 done
@@ -32,7 +32,6 @@ while IFS=' ' read -r name f_count
 do
     if [ $f_count -gt $max_f ]
     then
-        max_f_student=$name
         max_f=$f_count
     fi
 done < all.tmp 
@@ -44,19 +43,26 @@ then
     echo "Ни один студент не имеет неудачных попыток!"
     exit
 else
-    echo -e "\nИнформация о студенте с наибольши количеством неудачных попыток:\n"
-    echo "Имя: $max_f_student"
-    echo "Группа: $group"
-    echo "Общее количество неудач: $max_f"
-    i=1
-    while  read -r subj
+    echo -e "\nИнформация о студенте(-ах) с наибольшим количеством неудачных попыток:"
+    while read -r name points
     do
-        egrep -h "^$group;$max_f_student.*2$" ./$subj/tests/* > fs.tmp
-        while IFS=';' read -r gr name year points mark
-        do
-            echo -e "$i. Год: $year;\n   Предмет: $subj;\n   Количество набранных баллов: $points.   "
-            ((i++))
-        done < fs.tmp 
-    done <<< "$subjects"
+        if [ $max_f -eq $points ]
+        then
+            curr_name=$name
+            echo -e "\nИмя: $curr_name"
+            echo "Группа: $group"
+            echo "Общее количество неудач: $max_f"
+            i=1
+            while  read -r subj
+            do
+                egrep -h "^$group;$curr_name.*2$" ./$subj/tests/* > fs.tmp
+                while IFS=';' read -r gr name year curr_points mark
+                do
+                    echo -e "$i. Год: $year;\n   Предмет: $subj;\n   Количество набранных баллов: $curr_points.   "
+                    ((i++))
+                done < fs.tmp 
+            done <<< "$subjects"
+        fi
+    done < all.tmp
 fi
 rm *.tmp

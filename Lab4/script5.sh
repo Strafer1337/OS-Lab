@@ -9,7 +9,7 @@ group=$2
 
 while [ "$dir" != "p" -a "$dir" != "c" ]
 do
-    echo "Такого предмета не существует."
+    echo "Предмет указан неверно."
     read -p 'Введите правильный код предмета: ' dir
 done
 if [ $dir == "p" ]
@@ -25,7 +25,7 @@ fi
 file=students/groups/$group
 while [ ! -f "$file" ]
 do 
-    echo "Такой группы не существует."
+    echo "Группа не указана или указана неверно."
     read -p "Введите правильный номер группы: " group
     file=students/groups/$group
 done
